@@ -1,0 +1,27 @@
+{
+  "name": "auptix",
+  "version": "0.0.0",
+  "description": "Create color palettes using audio tones.",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "gulp": "^3.9.0",
+    "gulp-notify": "^2.2.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dtateii/auptix.git"
+  },
+  "author": "Dave Tate",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dtateii/auptix/issues"
+  },
+  "homepage": "https://github.com/dtateii/auptix#readme"
+}
