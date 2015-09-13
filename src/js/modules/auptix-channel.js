@@ -3,6 +3,7 @@
 var CtrlOsc = require('./auptix-ctrl-oscillator');
 var CtrlGain = require('./auptix-ctrl-gain');
 var CtrlFreq = require('./auptix-ctrl-frequency');
+var converter = require('./auptix-converter');
 
 // Constructor
 var AuptixChannel = function (audioContext) {
@@ -20,10 +21,13 @@ var AuptixChannel = function (audioContext) {
 
   // Add Channel control components.
   this.ui = document.createElement('div');
+  this.ui.className = "channel";
   this.addControl('osc');
   this.addControl('gain');
   this.addControl('freq');
-
+  this.lens = document.createElement('output');
+  this.lens.className = "lens";
+  this.ui.appendChild(this.lens);
 };
 
 // Prototype functions.
@@ -82,6 +86,9 @@ AuptixChannel.prototype = {
       console.log('Oscillator unhooked.');
     } else {
       this.oscillator.frequency.value = signal;
+      var rgb = converter.wavelengthToRgb(signal);
+      var rgbCss = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+      this.lens.style.backgroundColor = rgbCss;
     }
   },
 };

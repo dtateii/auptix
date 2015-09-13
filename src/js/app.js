@@ -4,7 +4,8 @@ var Auptix = function () {
 
   var AuptixChannel = require('./modules/auptix-channel'),
     audioContext,
-    board;
+    board,
+    btnAddChannel;
 
   // Create a master audio context.
   audioContext = new AudioContext();
@@ -12,14 +13,18 @@ var Auptix = function () {
   // Create an initial Channel Strip.
   board = document.getElementById('board');
 
-  // QaD add multiple isolated Channels to the board.
+  // Append Channel UI to board
   var addChannel = function () {
     var auptixChannel = new AuptixChannel(audioContext);
     board.appendChild(auptixChannel.ui);
   };
 
-  addChannel();
-  addChannel();
+  // Button to add new channels.
+  btnAddChannel = document.getElementById('add-channel');
+  btnAddChannel.addEventListener('mousedown', function () {
+    addChannel();
+  });
+
 };
 
 // Init.
