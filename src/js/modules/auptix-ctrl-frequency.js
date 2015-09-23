@@ -9,8 +9,8 @@ var AuptixCtrlFreq = function (channel) {
   // Create Freq Ctrl range slider.
   this.range = document.createElement('input');
   this.range.setAttribute('type', 'range');
-  this.range.setAttribute('min', '20');
-  this.range.setAttribute('max', '20000');
+  this.range.setAttribute('min', '0');
+  this.range.setAttribute('max', '20736');
   this.range.setAttribute('value', '0');
 
   // Create range update event listener, ultimately fires Channel callback.
@@ -24,6 +24,7 @@ var AuptixCtrlFreq = function (channel) {
 
   // Attach Frequency Control to component ui.
   this.ui = document.createElement('div');
+  this.ui.setAttribute('class', 'control');
   this.ui.appendChild(this.label);
   this.ui.appendChild(this.range);
 };

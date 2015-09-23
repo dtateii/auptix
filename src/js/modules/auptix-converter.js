@@ -2,7 +2,68 @@
 
 var AuptixConverter = {
 
+  /**
+   * Take arbitrary input signals and convert to 
+   * logarithmic sonic frequency values.
+  */
+  logAdapt: function (signal) {
+
+    // Mathing
+    // @see http://stackoverflow.com/questions/846221/logarithmic-slider
+    // @author: http://stackoverflow.com/users/56338/sth
+
+    // Arbitrary control precision is hardcoded 0-20736 (12^4)
+    var minp = 0;
+    var maxp = 20736;
+
+    // Output should be between 20 an 20000 (Hz).
+    var minv = Math.log(20);
+    var maxv = Math.log(20000);
+
+    // Calculate adjustment factor.
+    var scale = (maxv - minv) / (maxp - minp);
+
+    return Math.exp(minv + scale * (signal - minp));
+  },
+  /**
+   * @param: num frequency
+   *    in Hz
+   * @return: num wavelength
+   *    in nanometers
+   */
+  soundToLight: function (frequency) {
+
+    // Convert frequency to wavelength
+    // λ = ν / ƒ  ,  ƒ = ν / λ
+    // ν sound in air at room temperature is about 340 m/s (@todo make configurable)
+    var wavelength = 0;
+    var velocity = 340;
+
+    wavelength = velocity / frequency; // λ in meters
+
+    // Maths
+    // @see http://stackoverflow.com/questions/846221/logarithmic-slider
+    // @author: http://stackoverflow.com/users/56338/sth
+
+    // After converting frequency to wavelength, the value should be between
+    // .000017m (20kHz) and 17m (20Hz).
+    var minp = 0.000017;
+    var maxp = 17;
+
+    // The result should be between 380 an 780.
+    var minv = Math.log(380);
+    var maxv = Math.log(780);
+
+    // Calculate adjustment factor.
+    var scale = (maxv - minv) / (maxp - minp);
+
+    return Math.exp(minv + scale * (wavelength - minp));
+
+  },
   wavelengthToRgb: function (wavelength) {
+
+    // These wavelength values are in nanometers.
+
     /** taken from:
     http://stackoverflow.com/questions/1472514/convert-light-frequency-to-rgb
     author: http://stackoverflow.com/users/1254880/tarc

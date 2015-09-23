@@ -1,10 +1,16 @@
 .channel {
-  width: 198px;
+  width: 200px;
   border: 1px solid #666;
   padding: 12px;
   background-color: #eee;
   margin: 12px;
   float: left;
+}
+
+.control {
+  input {
+    width: 100%;
+  }
 }
 
 .lens {

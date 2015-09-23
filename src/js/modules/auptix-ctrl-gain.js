@@ -24,6 +24,7 @@ var AuptixCtrlGain = function (channel) {
 
   // Attach Gain Control to component ui.
   this.ui = document.createElement('div');
+  this.ui.setAttribute('class', 'control');
   this.ui.appendChild(this.label);
   this.ui.appendChild(this.range);
 };

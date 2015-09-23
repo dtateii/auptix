@@ -3,7 +3,6 @@
 var CtrlOsc = require('./auptix-ctrl-oscillator');
 var CtrlGain = require('./auptix-ctrl-gain');
 var CtrlFreq = require('./auptix-ctrl-frequency');
-var converter = require('./auptix-converter');
 
 // Constructor
 var AuptixChannel = function (audioContext) {
@@ -15,6 +14,7 @@ var AuptixChannel = function (audioContext) {
   this.ctrlOscillator = {};
   this.ctrlGain = {};
   this.ctrlFrequency = {};
+  this.converter = require('./auptix-converter');
 
   // Just need one gain node.....initially.
   this.initGain();
@@ -61,8 +61,10 @@ AuptixChannel.prototype = {
   },
   addOscillator: function () {
     this.oscillator = this.audioContext.createOscillator();
-    this.oscillator.type = 'sine';
-    this.oscillator.frequency.value = this.ctrlFrequency.range.value;
+    this.oscillator.type = 'square';
+
+    var frequency = this.converter.logAdapt(this.ctrlFrequency.range.value);
+    this.oscillator.frequency.value = frequency;
     this.oscillator.connect(this.gainNode);
   },
   removeOscillator: function () {
@@ -85,8 +87,13 @@ AuptixChannel.prototype = {
     if (this.oscillator.frequency === undefined) {
       console.log('Oscillator unhooked.');
     } else {
-      this.oscillator.frequency.value = signal;
-      var rgb = converter.wavelengthToRgb(signal);
+      var frequency = this.converter.logAdapt(signal);
+      this.oscillator.frequency.value = frequency;
+      var wavelength = this.converter.soundToLight(frequency);
+      var rgb = this.converter.wavelengthToRgb(wavelength);
+      console.log("Signal: " + signal);
+      console.log("Frequency: " + frequency);
+      console.log("Light: " + wavelength);
       var rgbCss = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
       this.lens.style.backgroundColor = rgbCss;
     }
